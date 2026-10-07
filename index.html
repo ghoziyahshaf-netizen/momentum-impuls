@@ -1,0 +1,2489 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#101827">
+<title>Momentum & Impulse Lab</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+:root{
+  --bg:#0b1120;
+  --panel:#111a2b;
+  --panel2:#172238;
+  --line:#26344d;
+  --text:#f4f7fb;
+  --muted:#9eacc2;
+  --accent:#67d5ff;
+  --accent2:#8cf0c4;
+  --warning:#ffd166;
+  --danger:#ff7b7b;
+  --good:#62e6a5;
+}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top,#18263d 0,#0b1120 42%,#070c16 100%);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  max-width:1200px;
+  margin:auto;
+  padding:18px;
+}
+
+header{
+  padding:20px 0 12px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo{
+  width:48px;
+  height:48px;
+  border:1px solid #39506f;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:#152238;
+  font-size:25px;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(25px,5vw,40px);
+}
+
+.subtitle{
+  margin:5px 0 0;
+  color:var(--muted);
+}
+
+.progress-wrap{
+  margin-top:20px;
+  background:#0d1626;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px;
+}
+
+.progress-top{
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:9px;
+}
+
+.progress{
+  height:8px;
+  background:#202c40;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress-bar{
+  height:100%;
+  width:16.6%;
+  background:var(--accent);
+  transition:.4s;
+}
+
+.missions{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin:14px 0;
+  padding-bottom:3px;
+}
+
+.mission-tab{
+  flex:0 0 auto;
+  border:1px solid var(--line);
+  background:#101a2b;
+  color:var(--muted);
+  border-radius:12px;
+  padding:10px 13px;
+}
+
+.mission-tab.active{
+  background:#1b3049;
+  color:white;
+  border-color:#426887;
+}
+
+.mission-tab.done{
+  border-color:#3c765d;
+  color:var(--good);
+}
+
+.card{
+  background:rgba(17,26,43,.94);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:16px;
+  box-shadow:0 10px 30px rgba(0,0,0,.16);
+}
+
+.hero{
+  padding:25px;
+  background:
+    linear-gradient(135deg,rgba(27,49,73,.95),rgba(15,24,40,.95));
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:99px;
+  font-size:12px;
+  background:#20334c;
+  color:var(--accent);
+  margin-bottom:9px;
+}
+
+h2{
+  margin:5px 0 9px;
+  font-size:25px;
+}
+
+h3{
+  margin:0 0 9px;
+}
+
+p{
+  line-height:1.55;
+}
+
+.question{
+  font-size:18px;
+  line-height:1.5;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+
+@media(max-width:760px){
+  .grid,.grid3{
+    grid-template-columns:1fr;
+  }
+}
+
+.control{
+  background:#0d1626;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px;
+}
+
+.control label{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  color:#cdd7e6;
+  margin-bottom:9px;
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:var(--accent);
+}
+
+.number{
+  color:var(--accent);
+  font-weight:bold;
+}
+
+.predictions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+@media(max-width:600px){
+  .predictions{
+    grid-template-columns:1fr;
+  }
+}
+
+.prediction{
+  border:1px solid var(--line);
+  background:#0e1727;
+  color:#dbe4f2;
+  border-radius:14px;
+  padding:14px;
+  min-height:55px;
+}
+
+.prediction.selected{
+  border-color:var(--accent);
+  background:#173049;
+  color:white;
+}
+
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:12px 17px;
+  font-weight:bold;
+  color:#07111d;
+  background:var(--accent);
+}
+
+.btn.secondary{
+  background:#24334a;
+  color:#e8eef8;
+  border:1px solid #344762;
+}
+
+.btn.good{
+  background:var(--good);
+}
+
+.btn.warning{
+  background:var(--warning);
+}
+
+.btn.danger{
+  background:var(--danger);
+}
+
+.btn:disabled{
+  opacity:.45;
+  cursor:not-allowed;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:15px;
+}
+
+.feedback{
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  display:none;
+  line-height:1.55;
+}
+
+.feedback.show{
+  display:block;
+}
+
+.feedback.good{
+  background:rgba(98,230,165,.1);
+  border:1px solid rgba(98,230,165,.35);
+}
+
+.feedback.bad{
+  background:rgba(255,123,123,.1);
+  border:1px solid rgba(255,123,123,.35);
+}
+
+.feedback.info{
+  background:rgba(103,213,255,.08);
+  border:1px solid rgba(103,213,255,.3);
+}
+
+.lab{
+  position:relative;
+  height:280px;
+  border:1px solid #293953;
+  border-radius:18px;
+  overflow:hidden;
+  background:
+    linear-gradient(#172235 0 55%,#202936 55% 100%);
+}
+
+.sky{
+  position:absolute;
+  inset:0 0 45% 0;
+  background:
+    radial-gradient(circle at 75% 30%,rgba(255,255,255,.18) 0 2px,transparent 3px),
+    linear-gradient(#142033,#1b2c44);
+}
+
+.sun{
+  position:absolute;
+  right:10%;
+  top:30px;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:#ffd166;
+  box-shadow:0 0 30px rgba(255,209,102,.25);
+}
+
+.road{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:45%;
+  background:#252d38;
+}
+
+.road-line{
+  position:absolute;
+  left:0;
+  right:0;
+  top:50%;
+  height:4px;
+  background:repeating-linear-gradient(
+    90deg,
+    #e8edf2 0 45px,
+    transparent 45px 85px
+  );
+  opacity:.55;
+}
+
+.vehicle{
+  position:absolute;
+  bottom:65px;
+  width:112px;
+  height:48px;
+  transition:left .05s linear;
+}
+
+.car-body{
+  position:absolute;
+  left:8px;
+  bottom:8px;
+  width:94px;
+  height:30px;
+  border-radius:10px 17px 8px 8px;
+  background:#4fb6e9;
+  border:2px solid #9de5ff;
+}
+
+.car-roof{
+  position:absolute;
+  left:29px;
+  bottom:34px;
+  width:49px;
+  height:22px;
+  border-radius:20px 25px 0 0;
+  background:#3d91bd;
+  border:2px solid #9de5ff;
+}
+
+.window{
+  position:absolute;
+  left:35px;
+  bottom:38px;
+  width:17px;
+  height:12px;
+  background:#bcecff;
+  opacity:.7;
+  border-radius:5px 2px 0 0;
+}
+
+.window2{
+  position:absolute;
+  left:55px;
+  bottom:38px;
+  width:18px;
+  height:12px;
+  background:#bcecff;
+  opacity:.7;
+  border-radius:2px 5px 0 0;
+}
+
+.wheel{
+  position:absolute;
+  bottom:0;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  background:#0b1018;
+  border:4px solid #68778a;
+}
+
+.wheel1{left:18px}
+.wheel2{right:17px}
+
+.carA{
+  --car:#55c2ff;
+}
+
+.carB{
+  --car:#f18a72;
+}
+
+.carB .car-body{
+  background:#e66e5a;
+  border-color:#ffb0a0;
+}
+
+.carB .car-roof{
+  background:#ba5748;
+  border-color:#ffb0a0;
+}
+
+.label-floating{
+  position:absolute;
+  top:13px;
+  padding:7px 10px;
+  border-radius:9px;
+  background:rgba(5,10,18,.72);
+  border:1px solid #30415a;
+  font-size:12px;
+}
+
+.speed-bubble{
+  position:absolute;
+  bottom:120px;
+  padding:7px 10px;
+  border-radius:9px;
+  background:#0c1624;
+  border:1px solid #34445c;
+  font-size:12px;
+  white-space:nowrap;
+}
+
+.obstacle{
+  position:absolute;
+  bottom:53px;
+  right:70px;
+  width:18px;
+  height:105px;
+  border-radius:5px;
+  background:#68778a;
+  border:2px solid #9ba8b8;
+}
+
+.ball{
+  position:absolute;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 32% 28%,#fff 0 5%,transparent 6%),
+    #e87b64;
+  box-shadow:0 5px 15px rgba(0,0,0,.3);
+}
+
+.hand{
+  position:absolute;
+  width:80px;
+  height:45px;
+  border:4px solid #e9bd9d;
+  border-radius:30px;
+  background:rgba(233,189,157,.13);
+}
+
+.arm{
+  position:absolute;
+  width:115px;
+  height:18px;
+  background:#d8a988;
+  border-radius:20px;
+}
+
+.force-meter{
+  height:170px;
+  display:flex;
+  align-items:flex-end;
+  gap:3px;
+  border-left:1px solid #3a4960;
+  border-bottom:1px solid #3a4960;
+  padding:10px;
+  background:#0c1422;
+  overflow:hidden;
+}
+
+.bar{
+  flex:1;
+  min-width:3px;
+  background:#67d5ff;
+  border-radius:3px 3px 0 0;
+  transition:height .1s;
+}
+
+.metric{
+  text-align:center;
+  background:#0d1626;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:15px 8px;
+}
+
+.metric .value{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:4px;
+}
+
+.metric .label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+th,td{
+  padding:10px;
+  border-bottom:1px solid #28364c;
+  text-align:center;
+}
+
+th{
+  color:#cbd7e8;
+  background:#172238;
+}
+
+.formula{
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  border-radius:14px;
+  background:#0c1625;
+  border:1px solid #2c405b;
+  margin:10px 0;
+}
+
+.discovery{
+  border-left:4px solid var(--accent2);
+  padding:13px 15px;
+  background:rgba(140,240,196,.06);
+  border-radius:0 12px 12px 0;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.small{
+  font-size:13px;
+}
+
+.score{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:#192941;
+  border:1px solid #334762;
+  border-radius:99px;
+  padding:6px 10px;
+  color:#ffd166;
+  font-weight:bold;
+}
+
+.direction{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:7px;
+}
+
+.collision-track{
+  height:180px;
+  position:relative;
+  border:1px solid #2d3e58;
+  border-radius:15px;
+  background:#111b2b;
+  overflow:hidden;
+}
+
+.collision-road{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:45%;
+  background:#242d38;
+}
+
+.center-line{
+  position:absolute;
+  left:50%;
+  top:55%;
+  transform:translate(-50%,-50%);
+  height:4px;
+  width:70%;
+  background:repeating-linear-gradient(90deg,#e8edf2 0 35px,transparent 35px 65px);
+  opacity:.45;
+}
+
+.cart{
+  position:absolute;
+  width:74px;
+  height:45px;
+  bottom:49px;
+  border-radius:9px 9px 4px 4px;
+  border:2px solid #b9d5ef;
+  background:#5388b7;
+}
+
+.cart.b{
+  background:#bd675a;
+}
+
+.cart:after{
+  content:"";
+  position:absolute;
+  width:15px;
+  height:15px;
+  border-radius:50%;
+  background:#111;
+  bottom:-9px;
+  left:10px;
+  box-shadow:40px 0 #111;
+}
+
+.collision-text{
+  position:absolute;
+  left:50%;
+  top:20px;
+  transform:translateX(-50%);
+  background:#0a111cdd;
+  padding:8px 12px;
+  border-radius:10px;
+  display:none;
+}
+
+.flash{
+  position:absolute;
+  left:50%;
+  top:55%;
+  transform:translate(-50%,-50%);
+  font-size:50px;
+  display:none;
+}
+
+.select-row{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.select-btn{
+  flex:1;
+  min-width:100px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#0e1727;
+  color:#dce6f3;
+  padding:12px;
+}
+
+.select-btn.selected{
+  background:#17334a;
+  border-color:var(--accent);
+}
+
+.conclusion{
+  font-size:18px;
+  line-height:1.6;
+}
+
+.footer{
+  text-align:center;
+  padding:20px;
+  color:#65758c;
+  font-size:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+  <div class="brand">
+    <div class="logo">🚗</div>
+    <div>
+      <h1>Momentum & Impulse Lab</h1>
+      <div class="subtitle">Prediksi → Coba → Amati → Temukan</div>
+    </div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-top">
+      <span id="progressText">Misi 1 dari 6</span>
+      <span class="score">⭐ <span id="score">0</span></span>
+    </div>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+  </div>
+</header>
+
+<div class="missions" id="missionTabs">
+  <button class="mission-tab active" data-mission="1">1 · Sulit Dihentikan</button>
+  <button class="mission-tab" data-mission="2">2 · Ubah Kecepatan</button>
+  <button class="mission-tab" data-mission="3">3 · Berhenti</button>
+  <button class="mission-tab" data-mission="4">4 · Tangkap Bola</button>
+  <button class="mission-tab" data-mission="5">5 · Waktu Berhenti</button>
+  <button class="mission-tab" data-mission="6">6 · Tabrakan</button>
+</div>
+
+<!-- =========================================================
+     MISSION 1
+========================================================= -->
+
+<section class="mission" id="mission1">
+
+<div class="card hero">
+  <span class="badge">MISI 1 · TEMUKAN MOMENTUM</span>
+  <h2>🚗 Mana yang lebih sulit dihentikan?</h2>
+
+  <p class="question">
+    Dua kendaraan sedang bergerak. Menurutmu, kendaraan mana yang
+    lebih sulit dihentikan?
+  </p>
+
+  <div class="grid">
+    <div class="control">
+      <strong>🚗 Kendaraan A</strong>
+      <p class="small muted">Ringan tetapi cepat.</p>
+
+      <label>
+        Massa
+        <span><span id="m1aVal">1000</span> kg</span>
+      </label>
+      <input id="m1a" type="range" min="500" max="3000" step="100" value="1000">
+
+      <label>
+        Kecepatan
+        <span><span id="v1aVal">20</span> m/s</span>
+      </label>
+      <input id="v1a" type="range" min="5" max="30" step="5" value="20">
+    </div>
+
+    <div class="control">
+      <strong>🚙 Kendaraan B</strong>
+      <p class="small muted">Lebih berat tetapi lebih lambat.</p>
+
+      <label>
+        Massa
+        <span><span id="m1bVal">2000</span> kg</span>
+      </label>
+      <input id="m1b" type="range" min="500" max="3000" step="100" value="2000">
+
+      <label>
+        Kecepatan
+        <span><span id="v1bVal">10</span> m/s</span>
+      </label>
+      <input id="v1b" type="range" min="5" max="30" step="5" value="10">
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔮 Prediksi dulu</h3>
+
+  <p>Menurutmu, kendaraan mana yang lebih sulit dihentikan?</p>
+
+  <div class="predictions">
+    <button class="prediction" data-pred="A" onclick="choosePrediction(1,'A',this)">🚗 A</button>
+    <button class="prediction" data-pred="B" onclick="choosePrediction(1,'B',this)">🚙 B</button>
+    <button class="prediction" data-pred="S" onclick="choosePrediction(1,'S',this)">⚖️ Sama</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="run1" onclick="runMission1()">▶ Jalankan simulasi</button>
+  </div>
+
+  <div id="feedback1" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="lab" id="lab1">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="road">
+      <div class="road-line"></div>
+    </div>
+
+    <div class="label-floating" style="left:20px">KENDARAAN A</div>
+    <div class="label-floating" style="right:20px">KENDARAAN B</div>
+
+    <div class="vehicle carA" id="car1a" style="left:12%;">
+      <div class="car-roof"></div>
+      <div class="window"></div>
+      <div class="window2"></div>
+      <div class="car-body"></div>
+      <div class="wheel wheel1"></div>
+      <div class="wheel wheel2"></div>
+    </div>
+
+    <div class="vehicle carB" id="car1b" style="left:62%;">
+      <div class="car-roof"></div>
+      <div class="window"></div>
+      <div class="window2"></div>
+      <div class="car-body"></div>
+      <div class="wheel wheel1"></div>
+      <div class="wheel wheel2"></div>
+    </div>
+
+    <div class="speed-bubble" id="bubble1a" style="left:12%;">20 m/s</div>
+    <div class="speed-bubble" id="bubble1b" style="left:62%;">10 m/s</div>
+  </div>
+</div>
+
+<div class="card hidden" id="result1">
+  <h3>📊 Apa yang terjadi?</h3>
+
+  <div class="grid3">
+    <div class="metric">
+      <div class="label">Momentum A</div>
+      <div class="value" id="p1a">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Momentum B</div>
+      <div class="value" id="p1b">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Perbandingan</div>
+      <div class="value" id="p1ratio">—</div>
+      <div class="label">A : B</div>
+    </div>
+  </div>
+
+  <div class="discovery" style="margin-top:15px">
+    <strong>🔎 Temukan polanya</strong>
+    <p>
+      Ketika massa atau kecepatan berubah, besaran yang menggambarkan
+      “seberapa sulit benda bergerak untuk dihentikan” juga berubah.
+    </p>
+  </div>
+
+  <div class="formula">
+    Momentum = massa × kecepatan
+    <br>
+    <strong>p = mv</strong>
+  </div>
+
+  <button class="btn good" onclick="completeMission(1)">
+    ✓ Saya menemukan polanya
+  </button>
+</div>
+
+</section>
+
+<!-- =========================================================
+     MISSION 2
+========================================================= -->
+
+<section class="mission hidden" id="mission2">
+
+<div class="card hero">
+  <span class="badge">MISI 2 · CARI POLANYA</span>
+  <h2>💨 Apa yang terjadi jika mobil semakin cepat?</h2>
+
+  <p class="question">
+    Sekarang gunakan satu kendaraan. Massanya tetap.
+    Kamu bebas mengubah kecepatannya.
+  </p>
+
+  <div class="control">
+    <label>
+      Massa kendaraan
+      <span><span id="m2Val">1000</span> kg</span>
+    </label>
+    <input id="m2" type="range" min="500" max="3000" step="100" value="1000">
+
+    <label>
+      Kecepatan
+      <span><span id="v2Val">10</span> m/s</span>
+    </label>
+    <input id="v2" type="range" min="5" max="40" step="5" value="10">
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔮 Prediksi</h3>
+
+  <p>
+    Jika kecepatan kendaraan dibuat <strong>2 kali lebih besar</strong>,
+    menurutmu apa yang terjadi pada momentum?
+  </p>
+
+  <div class="predictions">
+    <button class="prediction" onclick="choosePrediction(2,'half',this)">Menjadi setengah</button>
+    <button class="prediction" onclick="choosePrediction(2,'same',this)">Tetap sama</button>
+    <button class="prediction" onclick="choosePrediction(2,'double',this)">Menjadi 2 kali</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="runMission2()">▶ Uji sekarang</button>
+  </div>
+
+  <div id="feedback2" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="lab" id="lab2">
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="road">
+      <div class="road-line"></div>
+    </div>
+
+    <div class="vehicle carA" id="car2" style="left:8%;">
+      <div class="car-roof"></div>
+      <div class="window"></div>
+      <div class="window2"></div>
+      <div class="car-body"></div>
+      <div class="wheel wheel1"></div>
+      <div class="wheel wheel2"></div>
+    </div>
+
+    <div class="speed-bubble" id="bubble2" style="left:8%">10 m/s</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>📈 Bandingkan dua percobaan</h3>
+
+  <div class="grid">
+    <div class="metric">
+      <div class="label">Percobaan pertama</div>
+      <div class="value" id="p2first">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Percobaan kedua</div>
+      <div class="value" id="p2second">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+  </div>
+
+  <div id="result2text" class="discovery hidden" style="margin-top:15px"></div>
+
+  <button class="btn good" style="margin-top:15px" onclick="completeMission(2)">
+    ✓ Saya menemukan hubungan massa, kecepatan, dan momentum
+  </button>
+</div>
+
+</section>
+
+<!-- =========================================================
+     MISSION 3
+========================================================= -->
+
+<section class="mission hidden" id="mission3">
+
+<div class="card hero">
+  <span class="badge">MISI 3 · KETIKA BENDA BERHENTI</span>
+  <h2>🛑 Apa yang terjadi pada gerak mobil ketika berhenti?</h2>
+
+  <p class="question">
+    Mobil sedang melaju. Kemudian pengemudi mengerem sampai mobil berhenti.
+    Kita tidak langsung membahas rumus. Amati dulu apa yang berubah.
+  </p>
+
+  <div class="grid">
+    <div class="control">
+      <label>
+        Massa
+        <span><span id="m3Val">1200</span> kg</span>
+      </label>
+      <input id="m3" type="range" min="500" max="2500" step="100" value="1200">
+
+      <label>
+        Kecepatan awal
+        <span><span id="v3Val">20</span> m/s</span>
+      </label>
+      <input id="v3" type="range" min="5" max="35" step="5" value="20">
+    </div>
+
+    <div class="control">
+      <strong>Keadaan akhir</strong>
+      <p class="muted">
+        Mobil berhenti.
+      </p>
+      <div class="formula">v akhir = 0 m/s</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔮 Sebelum simulasi</h3>
+
+  <p>Ketika mobil berhenti, apa yang terjadi pada “gerak yang dibawanya”?</p>
+
+  <div class="predictions">
+    <button class="prediction" onclick="choosePrediction(3,'hilang',this)">Berubah menjadi nol</button>
+    <button class="prediction" onclick="choosePrediction(3,'sama',this)">Tetap sama</button>
+    <button class="prediction" onclick="choosePrediction(3,'besar',this)">Menjadi lebih besar</button>
+  </div>
+
+  <button class="btn" style="margin-top:15px" onclick="runMission3()">
+    ▶ Rem kendaraan
+  </button>
+
+  <div id="feedback3" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="lab" id="lab3">
+    <div class="sky"></div>
+    <div class="road">
+      <div class="road-line"></div>
+    </div>
+
+    <div class="vehicle carA" id="car3" style="left:10%;">
+      <div class="car-roof"></div>
+      <div class="window"></div>
+      <div class="window2"></div>
+      <div class="car-body"></div>
+      <div class="wheel wheel1"></div>
+      <div class="wheel wheel2"></div>
+    </div>
+
+    <div class="obstacle"></div>
+    <div class="speed-bubble" id="bubble3" style="left:10%">20 m/s</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>📊 Perubahan yang terjadi</h3>
+
+  <div class="grid3">
+    <div class="metric">
+      <div class="label">Momentum awal</div>
+      <div class="value" id="p3i">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Momentum akhir</div>
+      <div class="value" id="p3f">0</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Perubahannya</div>
+      <div class="value" id="dp3">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+  </div>
+
+  <div class="formula">
+    <strong>Δp = p<sub>akhir</sub> − p<sub>awal</sub></strong>
+  </div>
+
+  <button class="btn good" onclick="completeMission(3)">
+    ✓ Lanjut ke investigasi impuls
+  </button>
+</div>
+
+</section>
+
+<!-- =========================================================
+     MISSION 4
+========================================================= -->
+
+<section class="mission hidden" id="mission4">
+
+<div class="card hero">
+  <span class="badge">MISI 4 · IMPULS</span>
+  <h2>🏀 Tangkap bola tanpa membuatnya terasa terlalu keras</h2>
+
+  <p class="question">
+    Bayangkan sebuah bola datang ke tanganmu dengan cepat.
+    Ada dua cara menangkapnya.
+  </p>
+
+  <div class="grid">
+    <div class="control">
+      <strong>🏀 Bola</strong>
+
+      <label>
+        Massa
+        <span><span id="m4Val">0.5</span> kg</span>
+      </label>
+      <input id="m4" type="range" min="0.2" max="1" step="0.1" value="0.5">
+
+      <label>
+        Kecepatan datang
+        <span><span id="v4Val">10</span> m/s</span>
+      </label>
+      <input id="v4" type="range" min="5" max="20" step="1" value="10">
+    </div>
+
+    <div class="control">
+      <strong>🖐️ Pilih cara menangkap</strong>
+      <div class="select-row">
+        <button class="select-btn" id="catchHard" onclick="selectCatch('hard')">
+          A<br>
+          <small>Tangan langsung berhenti</small>
+        </button>
+
+        <button class="select-btn" id="catchSoft" onclick="selectCatch('soft')">
+          B<br>
+          <small>Tangan ikut bergerak</small>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔮 Prediksi</h3>
+
+  <p>
+    Menurutmu, cara mana yang akan terasa lebih keras?
+  </p>
+
+  <div class="predictions">
+    <button class="prediction" onclick="choosePrediction(4,'hard',this)">
+      A · Tangan langsung berhenti
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(4,'soft',this)">
+      B · Tangan ikut bergerak
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(4,'same',this)">
+      Keduanya sama
+    </button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="runCatch('hard')">▶ Coba A</button>
+    <button class="btn secondary" onclick="runCatch('soft')">▶ Coba B</button>
+  </div>
+
+  <div id="feedback4" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="lab" id="lab4">
+    <div class="sky"></div>
+    <div class="sun"></div>
+
+    <div class="arm" style="right:40px;bottom:100px"></div>
+    <div class="hand" id="hand4" style="right:35px;bottom:84px"></div>
+
+    <div class="ball" id="ball4" style="left:12%;bottom:95px"></div>
+
+    <div class="speed-bubble" id="bubble4" style="left:12%;bottom:150px">
+      10 m/s
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>📊 Yang berubah apa?</h3>
+
+  <div class="grid3">
+    <div class="metric">
+      <div class="label">Perubahan momentum</div>
+      <div class="value" id="dp4">—</div>
+      <div class="label">kg·m/s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Waktu berhenti</div>
+      <div class="value" id="dt4">—</div>
+      <div class="label">s</div>
+    </div>
+
+    <div class="metric">
+      <div class="label">Seberapa kuat efeknya</div>
+      <div class="value" id="force4">—</div>
+      <div class="label">N</div>
+    </div>
+  </div>
+
+  <div class="discovery" style="margin-top:15px">
+    <strong>🔎 Perhatikan</strong>
+    <p>
+      Bola yang sama mengalami perubahan gerak yang sama.
+      Yang berbeda adalah <strong>berapa lama perubahan itu berlangsung</strong>.
+    </p>
+  </div>
+
+  <div class="formula">
+    <strong>Impuls = perubahan momentum</strong>
+    <br>
+    I = Δp
+  </div>
+
+  <button class="btn good" onclick="completeMission(4)">
+    ✓ Saya menemukan hubungan impuls dan momentum
+  </button>
+</div>
+
+</section>
+
+<!-- =========================================================
+     MISSION 5
+========================================================= -->
+
+<section class="mission hidden" id="mission5">
+
+<div class="card hero">
+  <span class="badge">MISI 5 · WAKTU BERHENTI</span>
+  <h2>⏱️ Kalau diberi lebih banyak waktu untuk berhenti, apa yang berubah?</h2>
+
+  <p class="question">
+    Gunakan bola yang sama. Kali ini kamu yang mengatur
+    berapa lama bola berhenti.
+  </p>
+
+  <div class="control">
+    <label>
+      Waktu berhenti
+      <span><span id="dt5Val">0.1</span> s</span>
+    </label>
+    <input id="dt5" type="range" min="0.1" max="1" step="0.1" value="0.1">
+
+    <label>
+      Massa bola
+      <span><span id="m5Val">0.5</span> kg</span>
+    </label>
+    <input id="m5" type="range" min="0.2" max="1" step="0.1" value="0.5">
+
+    <label>
+      Kecepatan awal
+      <span><span id="v5Val">10</span> m/s</span>
+    </label>
+    <input id="v5" type="range" min="5" max="20" step="1" value="10">
+  </div>
+</div>
+
+<div class="card">
+  <h3>🔮 Prediksi</h3>
+
+  <p>
+    Jika bola diberi waktu <strong>lebih lama</strong> untuk berhenti,
+    bagaimana efek dorongannya?
+  </p>
+
+  <div class="predictions">
+    <button class="prediction" onclick="choosePrediction(5,'besar',this)">
+      Semakin besar
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(5,'kecil',this)">
+      Semakin kecil
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(5,'same',this)">
+      Tetap sama
+    </button>
+  </div>
+
+  <button class="btn" style="margin-top:15px" onclick="runMission5()">
+    ▶ Jalankan percobaan
+  </button>
+
+  <div id="feedback5" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div>
+      <h3>📈 Grafik</h3>
+      <div class="force-meter" id="forceGraph"></div>
+    </div>
+
+    <div>
+      <h3>📊 Hasil</h3>
+
+      <div class="grid3">
+        <div class="metric">
+          <div class="label">Δp</div>
+          <div class="value" id="dp5">—</div>
+          <div class="label">kg·m/s</div>
+        </div>
+
+        <div class="metric">
+          <div class="label">Waktu</div>
+          <div class="value" id="dt5Result">—</div>
+          <div class="label">s</div>
+        </div>
+
+        <div class="metric">
+          <div class="label">Nilai efek</div>
+          <div class="value" id="force5">—</div>
+          <div class="label">N</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula">
+    <strong>I = FΔt = Δp</strong>
+    <br>
+    sehingga
+    <strong>F = Δp / Δt</strong>
+  </div>
+
+  <div class="discovery">
+    <strong>💡 Sekarang beri nama pada pola yang kamu temukan.</strong>
+    <p>
+      Untuk perubahan momentum yang sama, semakin lama waktu perubahan
+      berlangsung, semakin kecil nilai dorongan yang diperlukan.
+    </p>
+  </div>
+
+  <button class="btn good" onclick="completeMission(5)">
+    ✓ Saya menemukan hubungan waktu dan efek dorongan
+  </button>
+</div>
+
+</section>
+
+<!-- =========================================================
+     MISSION 6
+========================================================= -->
+
+<section class="mission hidden" id="mission6">
+
+<div class="card hero">
+  <span class="badge">MISI 6 · COLLISION LAB</span>
+  <h2>💥 Dua kendaraan bertabrakan. Ke mana mereka bergerak?</h2>
+
+  <p class="question">
+    Sekarang gabungkan semua yang sudah kamu temukan.
+    Atur dua kendaraan, lalu prediksi hasil tabrakannya.
+  </p>
+
+  <div class="grid">
+
+    <div class="control">
+      <strong>🚗 Kendaraan A</strong>
+
+      <label>
+        Massa
+        <span><span id="m6aVal">1000</span> kg</span>
+      </label>
+      <input id="m6a" type="range" min="500" max="2500" step="100" value="1000">
+
+      <label>
+        Kecepatan
+        <span><span id="v6aVal">10</span> m/s</span>
+      </label>
+      <input id="v6a" type="range" min="0" max="25" step="1" value="10">
+    </div>
+
+    <div class="control">
+      <strong>🚙 Kendaraan B</strong>
+
+      <label>
+        Massa
+        <span><span id="m6bVal">1000</span> kg</span>
+      </label>
+      <input id="m6b" type="range" min="500" max="2500" step="100" value="1000">
+
+      <label>
+        Kecepatan
+        <span><span id="v6bVal">5</span> m/s</span>
+      </label>
+      <input id="v6b" type="range" min="0" max="25" step="1" value="5">
+    </div>
+
+  </div>
+
+  <p class="direction">
+    A bergerak → &nbsp;&nbsp; B bergerak ←
+  </p>
+</div>
+
+<div class="card">
+  <h3>🔮 Prediksi sebelum tabrakan</h3>
+
+  <p>
+    Setelah bertabrakan dan keduanya bergerak bersama,
+    menurutmu mereka akan bergerak ke mana?
+  </p>
+
+  <div class="predictions">
+    <button class="prediction" onclick="choosePrediction(6,'A',this)">
+      → Ke arah A
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(6,'B',this)">
+      ← Ke arah B
+    </button>
+
+    <button class="prediction" onclick="choosePrediction(6,'stop',this)">
+      🛑 Berhenti
+    </button>
+  </div>
+
+  <button class="btn" style="margin-top:15px" onclick="runMission6()">
+    💥 TABRAKKAN
+  </button>
+
+  <div id="feedback6" class="feedback"></div>
+</div>
+
+<div class="card">
+  <div class="collision-track" id="collisionTrack">
+
+    <div class="collision-road"></div>
+    <div class="center-line"></div>
+
+    <div class="cart" id="cartA" style="left:12%;"></div>
+    <div class="cart b" id="cartB" style="left:78%;"></div>
+
+    <div class="collision-text" id="collisionText">
+      TUMBUKAN!
+    </div>
+
+    <div class="flash" id="collisionFlash">💥</div>
+
+  </div>
+</div>
+
+<div class="card">
+  <h3>📊 Periksa sebelum dan sesudah tumbukan</h3>
+
+  <div class="grid">
+    <div>
+      <h3>Sebelum</h3>
+
+      <table>
+        <tr>
+          <th></th>
+          <th>A</th>
+          <th>B</th>
+          <th>Total</th>
+        </tr>
+        <tr>
+          <td>p</td>
+          <td id="p6a">—</td>
+          <td id="p6b">—</td>
+          <td id="p6totalBefore">—</td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <h3>Sesudah</h3>
+
+      <table>
+        <tr>
+          <th>Keadaan</th>
+          <th>Nilai</th>
+        </tr>
+        <tr>
+          <td>Kecepatan bersama</td>
+          <td id="vf6">—</td>
+        </tr>
+        <tr>
+          <td>Momentum total</td>
+          <td id="p6after">—</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="formula">
+    <strong>
+      Σp<sub>sebelum</sub> = Σp<sub>sesudah</sub>
+    </strong>
+  </div>
+
+  <div class="discovery">
+    <strong>🔎 Kesimpulan</strong>
+    <p id="conclusion6">
+      Jalankan simulasi untuk melihat apakah momentum total berubah.
+    </p>
+  </div>
+
+  <button class="btn good" onclick="finishLab()">
+    🏁 Selesaikan Lab
+  </button>
+</div>
+
+</section>
+
+<!-- FINAL -->
+
+<section class="mission hidden" id="finalMission">
+
+<div class="card hero">
+  <span class="badge">LAB SELESAI</span>
+  <h2>🎉 Kamu berhasil menyelesaikan investigasi!</h2>
+
+  <p class="conclusion">
+    Kamu tidak memulai dari rumus.
+    Kamu mulai dari pertanyaan, membuat prediksi, mencoba,
+    mengamati hasil, lalu menemukan pola.
+  </p>
+</div>
+
+<div class="card">
+  <h3>🧠 Peta konsep yang kamu temukan</h3>
+
+  <div class="grid">
+
+    <div class="discovery">
+      <strong>1. Momentum</strong>
+      <div class="formula">p = mv</div>
+      <p>
+        Massa dan kecepatan menentukan seberapa besar momentum
+        benda yang bergerak.
+      </p>
+    </div>
+
+    <div class="discovery">
+      <strong>2. Perubahan momentum</strong>
+      <div class="formula">Δp = p<sub>akhir</sub> − p<sub>awal</sub></div>
+      <p>
+        Ketika gerak benda berubah, momentumnya juga berubah.
+      </p>
+    </div>
+
+    <div class="discovery">
+      <strong>3. Impuls</strong>
+      <div class="formula">I = Δp</div>
+      <p>
+        Impuls menggambarkan perubahan momentum yang dialami benda.
+      </p>
+    </div>
+
+    <div class="discovery">
+      <strong>4. Waktu perubahan</strong>
+      <div class="formula">I = FΔt</div>
+      <p>
+        Waktu perubahan gerak berkaitan dengan seberapa besar
+        efek dorongan yang terjadi.
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="card">
+  <h3>⭐ Skor investigasi</h3>
+
+  <div class="metric">
+    <div class="label">Total</div>
+    <div class="value" id="finalScore">0</div>
+    <div class="label">poin</div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" onclick="restartLab()">↻ Ulangi Lab</button>
+    <button class="btn secondary" onclick="window.print()">🖨 Cetak hasil</button>
+  </div>
+</div>
+
+</section>
+
+<div class="footer">
+Momentum & Impulse Lab · Physics Investigation
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
+
+let currentMission = 1;
+let score = 0;
+
+const predictions = {
+  1:null,
+  2:null,
+  3:null,
+  4:null,
+  5:null,
+  6:null
+};
+
+const completed = {
+  1:false,
+  2:false,
+  3:false,
+  4:false,
+  5:false,
+  6:false
+};
+
+let firstSpeed2 = null;
+let firstMomentum2 = null;
+let selectedCatch = "hard";
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function num(id){
+  return Number($(id).value);
+}
+
+function fmt(n,d=1){
+  if(!Number.isFinite(n)) return "—";
+  return Number(n.toFixed(d)).toLocaleString("id-ID");
+}
+
+function setText(id,value){
+  $(id).textContent=value;
+}
+
+function feedback(id,type,text){
+  const el=$(id);
+  el.className="feedback show "+type;
+  el.innerHTML=text;
+}
+
+function choosePrediction(mission,value,button){
+
+  predictions[mission]=value;
+
+  const parent=button.parentElement;
+
+  parent.querySelectorAll(".prediction").forEach(b=>{
+    b.classList.remove("selected");
+  });
+
+  button.classList.add("selected");
+}
+
+function addScore(points){
+  score+=points;
+  setText("score",score);
+}
+
+function completeMission(n){
+
+  if(!completed[n]){
+    completed[n]=true;
+    addScore(10);
+
+    const tab=document.querySelector(
+      `.mission-tab[data-mission="${n}"]`
+    );
+
+    if(tab) tab.classList.add("done");
+  }
+
+  if(n<6){
+    switchMission(n+1);
+  }else{
+    finishLab();
+  }
+}
+
+function switchMission(n){
+
+  currentMission=n;
+
+  document.querySelectorAll(".mission").forEach(sec=>{
+    sec.classList.add("hidden");
+  });
+
+  const target=$("mission"+n);
+
+  if(target) target.classList.remove("hidden");
+
+  document.querySelectorAll(".mission-tab").forEach(tab=>{
+    tab.classList.toggle(
+      "active",
+      Number(tab.dataset.mission)===n
+    );
+  });
+
+  const progress=n<=6 ? n/6*100 : 100;
+
+  $("progressBar").style.width=progress+"%";
+
+  setText(
+    "progressText",
+    n<=6 ? `Misi ${n} dari 6` : "Lab selesai"
+  );
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+document.querySelectorAll(".mission-tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    const n=Number(tab.dataset.mission);
+
+    /*
+      Hanya membuka misi yang sudah selesai atau
+      misi berikutnya agar alurnya tetap seperti investigasi.
+    */
+    if(n===1 || completed[n-1] || completed[n]){
+      switchMission(n);
+    }
+  });
+});
+
+
+/* =========================================================
+   RANGE DISPLAY
+========================================================= */
+
+const rangePairs=[
+  ["m1a","m1aVal"],
+  ["v1a","v1aVal"],
+  ["m1b","m1bVal"],
+  ["v1b","v1bVal"],
+  ["m2","m2Val"],
+  ["v2","v2Val"],
+  ["m3","m3Val"],
+  ["v3","v3Val"],
+  ["m4","m4Val"],
+  ["v4","v4Val"],
+  ["dt5","dt5Val"],
+  ["m5","m5Val"],
+  ["v5","v5Val"],
+  ["m6a","m6aVal"],
+  ["v6a","v6aVal"],
+  ["m6b","m6bVal"],
+  ["v6b","v6bVal"]
+];
+
+rangePairs.forEach(pair=>{
+  const input=$(pair[0]);
+  const output=$(pair[1]);
+
+  input.addEventListener("input",()=>{
+    output.textContent=input.value;
+  });
+});
+
+
+/* =========================================================
+   MISSION 1
+========================================================= */
+
+function runMission1(){
+
+  const mA=num("m1a");
+  const vA=num("v1a");
+
+  const mB=num("m1b");
+  const vB=num("v1b");
+
+  const pA=mA*vA;
+  const pB=mB*vB;
+
+  const predicted=predictions[1];
+
+  if(!predicted){
+    feedback(
+      "feedback1",
+      "info",
+      "Pilih prediksimu dulu sebelum menjalankan simulasi."
+    );
+    return;
+  }
+
+  $("car1a").style.left="12%";
+  $("car1b").style.left="62%";
+
+  setText("bubble1a",`${vA} m/s`);
+  setText("bubble1b",`${vB} m/s`);
+
+  /*
+    Animasi berdasarkan kecepatan relatif.
+  */
+  animateVehicle(
+    "car1a",
+    12,
+    45,
+    900/(vA/10)
+  );
+
+  animateVehicle(
+    "car1b",
+    62,
+    15,
+    1200/(vB/10)
+  );
+
+  setTimeout(()=>{
+
+    setText("p1a",fmt(pA,0));
+    setText("p1b",fmt(pB,0));
+
+    const ratio=pB===0 ? 0 : pA/pB;
+
+    setText(
+      "p1ratio",
+      ratio===1 ? "1 : 1" : `${fmt(ratio,2)} : 1`
+    );
+
+    $("result1").classList.remove("hidden");
+
+    if(pA===pB){
+
+      if(predicted==="S"){
+        feedback(
+          "feedback1",
+          "good",
+          "✅ Prediksimu tepat. Kedua kendaraan memiliki momentum yang sama."
+        );
+        addScore(5);
+      }else{
+        feedback(
+          "feedback1",
+          "info",
+          "Keduanya ternyata memiliki momentum yang sama. Menarik, kan? Massa dan kecepatan dapat saling mengimbangi."
+        );
+      }
+
+    }else{
+
+      const actual=pA>pB ? "A" : "B";
+
+      if(predicted===actual){
+        feedback(
+          "feedback1",
+          "good",
+          `✅ Prediksimu tepat. Momentum kendaraan ${actual} lebih besar.`
+        );
+        addScore(5);
+      }else{
+        feedback(
+          "feedback1",
+          "info",
+          `Hasil simulasi menunjukkan kendaraan ${actual} memiliki momentum lebih besar. Coba perhatikan massa × kecepatannya.`
+        );
+      }
+    }
+
+  },1500);
+}
+
+function animateVehicle(id,start,end,duration){
+
+  const el=$(id);
+  const t0=performance.now();
+
+  function frame(now){
+
+    const progress=Math.min((now-t0)/duration,1);
+
+    const eased=progress*(2-progress);
+
+    el.style.left=(start+(end-start)*eased)+"%";
+
+    if(progress<1){
+      requestAnimationFrame(frame);
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+
+/* =========================================================
+   MISSION 2
+========================================================= */
+
+function runMission2(){
+
+  const m=num("m2");
+  const v=num("v2");
+
+  const p=m*v;
+
+  if(firstSpeed2===null){
+
+    firstSpeed2=v;
+    firstMomentum2=p;
+
+    setText("p2first",fmt(p,0));
+    setText("p2second","—");
+
+    feedback(
+      "feedback2",
+      "info",
+      "Percobaan pertama sudah dicatat. Sekarang ubah kecepatannya dan jalankan lagi. Cobalah membuat kecepatannya menjadi 2 kali lebih besar."
+    );
+
+  }else{
+
+    setText("p2second",fmt(p,0));
+
+    const ratio=p/firstMomentum2;
+
+    let text="";
+
+    if(ratio>1.95 && ratio<2.05){
+      text=`
+        <strong>🔎 Polanya terlihat!</strong>
+        <p>
+        Ketika massa tetap dan kecepatan menjadi 2 kali,
+        momentum juga menjadi sekitar 2 kali.
+        </p>
+        <div class="formula">p = mv</div>
+      `;
+    }else{
+      text=`
+        <strong>🔎 Bandingkan lagi.</strong>
+        <p>
+        Perhatikan perubahan kecepatan dan perubahan momentum.
+        Coba atur kecepatannya menjadi tepat 2 kali percobaan pertama.
+        </p>
+      `;
+    }
+
+    $("result2text").innerHTML=text;
+    $("result2text").classList.remove("hidden");
+
+    if(predictions[2]==="double" && ratio>1.95 && ratio<2.05){
+      feedback(
+        "feedback2",
+        "good",
+        "✅ Prediksimu benar. Saat kecepatan menjadi 2 kali, momentum juga menjadi 2 kali."
+      );
+      addScore(5);
+    }else{
+      feedback(
+        "feedback2",
+        "info",
+        "Sekarang lihat hubungan angka pada kedua percobaan. Itulah pola yang sedang kita cari."
+      );
+    }
+  }
+
+  const car=$("car2");
+
+  car.style.left="8%";
+
+  const end=Math.min(
+    70,
+    8+(v/40)*60
+  );
+
+  animateVehicle(
+    "car2",
+    8,
+    end,
+    Math.max(500,1200-(v*15))
+  );
+
+  setText("bubble2",`${v} m/s`);
+}
+
+
+/* =========================================================
+   MISSION 3
+========================================================= */
+
+function runMission3(){
+
+  const m=num("m3");
+  const v=num("v3");
+
+  const pi=m*v;
+  const pf=0;
+  const dp=pf-pi;
+
+  if(!predictions[3]){
+    feedback(
+      "feedback3",
+      "info",
+      "Pilih prediksimu terlebih dahulu."
+    );
+    return;
+  }
+
+  $("car3").style.left="10%";
+
+  animateVehicle(
+    "car3",
+    10,
+    70,
+    1600
+  );
+
+  setTimeout(()=>{
+
+    setText("bubble3","0 m/s");
+
+    setText("p3i",fmt(pi,0));
+    setText("p3f","0");
+    setText("dp3",fmt(dp,0));
+
+    if(predictions[3]==="hilang"){
+
+      feedback(
+        "feedback3",
+        "good",
+        "✅ Tepat. Saat mobil berhenti, momentumnya menjadi nol. Ada perubahan momentum."
+      );
+
+      addScore(5);
+
+    }else{
+
+      feedback(
+        "feedback3",
+        "info",
+        "Hasil simulasi menunjukkan momentum akhirnya menjadi nol. Jadi ada perubahan momentum."
+      );
+    }
+
+  },1700);
+}
+
+
+/* =========================================================
+   MISSION 4
+========================================================= */
+
+function selectCatch(type){
+
+  selectedCatch=type;
+
+  $("catchHard").classList.toggle(
+    "selected",
+    type==="hard"
+  );
+
+  $("catchSoft").classList.toggle(
+    "selected",
+    type==="soft"
+  );
+}
+
+function runCatch(type){
+
+  const m=num("m4");
+  const v=num("v4");
+
+  const dp=m*v;
+
+  const dt=type==="hard" ? 0.1 : 0.5;
+
+  const force=dp/dt;
+
+  const ball=$("ball4");
+
+  ball.style.left="12%";
+
+  const end=type==="hard" ? 72 : 64;
+
+  const duration=type==="hard" ? 700 : 1700;
+
+  animateBall(
+    ball,
+    12,
+    end,
+    duration,
+    type
+  );
+
+  setTimeout(()=>{
+
+    setText("dp4",fmt(dp,2));
+    setText("dt4",fmt(dt,2));
+    setText("force4",fmt(force,1));
+
+    if(predictions[4] && predictions[4]===type){
+
+      feedback(
+        "feedback4",
+        "good",
+        "✅ Prediksimu sesuai hasil simulasi. Perhatikan bahwa bola yang sama dapat dihentikan dalam waktu berbeda."
+      );
+
+      addScore(5);
+
+    }else{
+
+      feedback(
+        "feedback4",
+        "info",
+        "Bandingkan hasil A dan B. Yang berubah bukan hanya hasil akhirnya, tetapi berapa lama perubahan gerak berlangsung."
+      );
+    }
+
+  },duration+100);
+}
+
+function animateBall(ball,start,end,duration,type){
+
+  const t0=performance.now();
+
+  function frame(now){
+
+    const progress=Math.min(
+      (now-t0)/duration,
+      1
+    );
+
+    const eased=progress*(2-progress);
+
+    ball.style.left=(start+(end-start)*eased)+"%";
+
+    if(progress<1){
+      requestAnimationFrame(frame);
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+
+/* =========================================================
+   MISSION 5
+========================================================= */
+
+function runMission5(){
+
+  const dt=num("dt5");
+  const m=num("m5");
+  const v=num("v5");
+
+  const dp=m*v;
+
+  const force=dp/dt;
+
+  setText("dp5",fmt(dp,2));
+  setText("dt5Result",fmt(dt,2));
+  setText("force5",fmt(force,1));
+
+  drawForceGraph(dp,dt);
+
+  const graph=$("forceGraph");
+
+  /*
+    Simulasi sederhana bola bergerak lalu berhenti
+    sesuai durasi yang dipilih.
+  */
+  graph.animate(
+    [
+      {opacity:.35},
+      {opacity:1}
+    ],
+    {
+      duration:Math.max(300,dt*700),
+      fill:"both"
+    }
+  );
+
+  if(!predictions[5]){
+    feedback(
+      "feedback5",
+      "info",
+      "Pilih prediksimu terlebih dahulu agar hasil percobaan bisa dibandingkan dengan prediksi."
+    );
+    return;
+  }
+
+  if(predictions[5]==="kecil"){
+
+    feedback(
+      "feedback5",
+      "good",
+      "✅ Benar. Ketika perubahan gerak yang dialami sama tetapi waktunya dibuat lebih lama, nilai efek dorongannya menjadi lebih kecil."
+    );
+
+    addScore(5);
+
+  }else{
+
+    feedback(
+      "feedback5",
+      "info",
+      "Perhatikan angka hasil simulasi. Coba geser waktu berhenti menjadi lebih besar dan bandingkan."
+    );
+  }
+}
+
+function drawForceGraph(dp,dt){
+
+  const graph=$("forceGraph");
+  graph.innerHTML="";
+
+  const n=24;
+
+  /*
+    Luas/area konseptual dibuat tetap,
+    tetapi tinggi grafik berubah sesuai durasi.
+  */
+  const force=dp/dt;
+
+  for(let i=0;i<n;i++){
+
+    const bar=document.createElement("div");
+    bar.className="bar";
+
+    const center=1-Math.abs(
+      i-(n-1)/2
+    )/((n-1)/2);
+
+    const height=20+center*70*(force/Math.max(force,10));
+
+    bar.style.height=Math.max(
+      8,
+      Math.min(100,height)
+    )+"%";
+
+    graph.appendChild(bar);
+  }
+}
+
+
+/* =========================================================
+   MISSION 6
+========================================================= */
+
+function runMission6(){
+
+  const mA=num("m6a");
+  const vA=num("v6a");
+
+  const mB=num("m6b");
+  const vB=num("v6b");
+
+  /*
+    A positif ke kanan
+    B negatif ke kiri
+  */
+  const pA=mA*vA;
+  const pB=-mB*vB;
+
+  const total=pA+pB;
+
+  /*
+    Tumbukan tidak lenting sempurna:
+    kedua kendaraan bergerak bersama setelah tumbukan.
+  */
+  const vf=total/(mA+mB);
+
+  const pAfter=(mA+mB)*vf;
+
+  setText("p6a",fmt(pA,0));
+  setText("p6b",fmt(pB,0));
+  setText("p6totalBefore",fmt(total,0));
+
+  setText(
+    "vf6",
+    `${fmt(vf,2)} m/s ${vf>0?"→":vf<0?"←":"🛑"}`
+  );
+
+  setText("p6after",fmt(pAfter,0));
+
+  const difference=Math.abs(total-pAfter);
+
+  if(difference<0.01){
+
+    setText(
+      "conclusion6",
+      `Momentum total sebelum tumbukan = ${fmt(total,0)} kg·m/s dan sesudah tumbukan = ${fmt(pAfter,0)} kg·m/s. Nilainya tetap sama dalam model simulasi ini.`
+    );
+
+  }else{
+
+    setText(
+      "conclusion6",
+      "Ada perbedaan hasil. Periksa kembali pengaturan simulasi."
+    );
+  }
+
+  /*
+    Prediksi arah.
+  */
+  let actual;
+
+  if(vf>0.01){
+    actual="A";
+  }else if(vf<-0.01){
+    actual="B";
+  }else{
+    actual="stop";
+  }
+
+  if(predictions[6]===actual){
+
+    feedback(
+      "feedback6",
+      "good",
+      "✅ Prediksimu benar. Arah gerak setelah tumbukan dapat dipahami dari jumlah momentum kedua kendaraan sebelum tumbukan."
+    );
+
+    addScore(5);
+
+  }else{
+
+    feedback(
+      "feedback6",
+      "info",
+      `Hasil simulasi: setelah tumbukan kendaraan bergerak ${actual==="A"?"ke arah A":actual==="B"?"ke arah B":"berhenti"}. Gunakan tanda positif dan negatif untuk melihat arahnya.`
+    );
+  }
+
+  animateCollision(vA,vB,vf);
+}
+
+function animateCollision(vA,vB,vf){
+
+  const A=$("cartA");
+  const B=$("cartB");
+
+  const text=$("collisionText");
+  const flash=$("collisionFlash");
+
+  A.style.left="12%";
+  B.style.left="78%";
+
+  text.style.display="none";
+  flash.style.display="none";
+
+  /*
+    Gerak menuju tengah.
+  */
+  const start=performance.now();
+  const duration=1800;
+
+  function frame(now){
+
+    const p=Math.min(
+      (now-start)/duration,
+      1
+    );
+
+    const eased=p*(2-p);
+
+    const leftA=12+(50-12)*eased;
+    const leftB=78-(78-50)*eased;
+
+    A.style.left=leftA+"%";
+    B.style.left=leftB+"%";
+
+    if(p<1){
+      requestAnimationFrame(frame);
+    }else{
+
+      text.style.display="block";
+      flash.style.display="block";
+
+      setTimeout(()=>{
+
+        flash.style.display="none";
+        text.style.display="none";
+
+        /*
+          Setelah tumbukan, keduanya bergerak bersama.
+        */
+        const target=50+(vf*2);
+
+        A.style.left=Math.max(
+          25,
+          Math.min(60,target)
+        )+"%";
+
+        B.style.left=Math.max(
+          25,
+          Math.min(60,target+5)
+        )+"%";
+
+      },500);
+    }
+  }
+
+  requestAnimationFrame(frame);
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function finishLab(){
+
+  document.querySelectorAll(".mission").forEach(sec=>{
+    sec.classList.add("hidden");
+  });
+
+  $("finalMission").classList.remove("hidden");
+
+  $("progressBar").style.width="100%";
+
+  setText(
+    "progressText",
+    "Lab selesai"
+  );
+
+  setText(
+    "finalScore",
+    score
+  );
+
+  document.querySelectorAll(".mission-tab").forEach(tab=>{
+    tab.classList.add("done");
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+function restartLab(){
+
+  location.reload();
+}
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+selectCatch("hard");
+
+</script>
+
+</body>
+</html>
