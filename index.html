@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>CHEM CLASH — Mystery Mission</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+:root{
+    --bg:#17130f;
+    --panel:#2b2118;
+    --panel2:#3a2b1e;
+    --gold:#f2c14e;
+    --gold2:#d99d25;
+    --green:#62a94d;
+    --green2:#3f7f35;
+    --red:#c94d3d;
+    --cream:#fff4d6;
+    --brown:#6f4d2d;
+    --border:#795a36;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at top,#3b2b1d 0,#17130f 55%);
+    color:var(--cream);
+    min-height:100vh;
+}
+
+.container{
+    width:100%;
+    max-width:650px;
+    margin:auto;
+    padding:14px 12px 40px;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar{
+    background:linear-gradient(#493522,#291e15);
+    border:3px solid #80613a;
+    border-radius:18px;
+    padding:12px 14px;
+    box-shadow:
+        0 5px 0 #120e0b,
+        inset 0 1px 0 #a78353;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:14px;
+}
+
+.logo{
+    font-size:21px;
+    font-weight:900;
+    text-shadow:2px 2px #100c08;
+}
+
+.logo span{
+    display:block;
+    font-size:11px;
+    color:#d9b76e;
+    letter-spacing:1px;
+    margin-top:3px;
+}
+
+.shield{
+    width:48px;
+    height:48px;
+    border-radius:12px;
+    background:linear-gradient(#f4c74d,#a96f16);
+    border:3px solid #ffe69a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    box-shadow:0 3px 0 #68420f;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    text-align:center;
+    padding:20px 12px;
+    background:
+        linear-gradient(
+            rgba(61,43,27,.94),
+            rgba(32,24,17,.96)
+        );
+    border:3px solid #745531;
+    border-radius:20px;
+    box-shadow:
+        0 6px 0 #0e0b08,
+        inset 0 0 20px rgba(0,0,0,.3);
+    margin-bottom:14px;
+}
+
+.hero h1{
+    margin:0;
+    font-size:28px;
+    font-weight:900;
+    color:#ffd866;
+    text-shadow:
+        2px 3px 0 #6a4316,
+        0 0 8px rgba(255,205,80,.25);
+}
+
+.hero p{
+    margin:8px 0 0;
+    font-size:13px;
+    color:#dbc49a;
+}
+
+
+/* =========================
+   PANEL
+========================= */
+
+.panel{
+    background:
+        linear-gradient(#38291c,#241b13);
+    border:3px solid #745531;
+    border-radius:18px;
+    padding:16px;
+    margin-bottom:14px;
+    box-shadow:
+        0 5px 0 #0e0b08,
+        inset 0 1px 0 #9a7548;
+}
+
+.panel-title{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:18px;
+    font-weight:900;
+    color:#ffd86a;
+    margin-bottom:13px;
+}
+
+
+/* =========================
+   MISSION RULES
+========================= */
+
+.rules{
+    display:grid;
+    gap:8px;
+}
+
+.rule{
+    background:#211811;
+    border:1px solid #584128;
+    border-radius:10px;
+    padding:10px;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.rule b{
+    color:#ffd96b;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-wrap{
+    background:#17110d;
+    border:2px solid #594126;
+    border-radius:10px;
+    padding:3px;
+    height:22px;
+    margin-top:8px;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:6px;
+    background:linear-gradient(#8bd765,#3f8d32);
+    transition:.4s;
+}
+
+.progress-text{
+    text-align:center;
+    font-size:12px;
+    color:#d8c39a;
+    margin-top:7px;
+}
+
+
+/* =========================
+   TEAM CARDS
+========================= */
+
+.team-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+}
+
+.team-card{
+    background:#211811;
+    border:2px solid #5d4329;
+    border-radius:13px;
+    padding:12px;
+    position:relative;
+    overflow:hidden;
+}
+
+.team-card.done{
+    border-color:#72ad55;
+    background:#1c2a18;
+}
+
+.team-name{
+    font-size:12px;
+    color:#cbb38b;
+    font-weight:bold;
+}
+
+.team-score{
+    font-size:27px;
+    font-weight:900;
+    color:#ffd45d;
+    margin:3px 0;
+}
+
+.team-status{
+    font-size:11px;
+    color:#9e907b;
+}
+
+.team-card.done .team-status{
+    color:#83ca68;
+}
+
+.score-icon{
+    position:absolute;
+    right:8px;
+    top:8px;
+    font-size:22px;
+    opacity:.8;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    color:#d9c39a;
+    margin-bottom:7px;
+}
+
+select,
+input{
+    width:100%;
+    padding:14px 13px;
+    border-radius:11px;
+    border:2px solid #715333;
+    background:#17110d;
+    color:#fff0c9;
+    font-size:16px;
+    outline:none;
+}
+
+select:focus,
+input:focus{
+    border-color:#d9a83b;
+    box-shadow:0 0 8px rgba(217,168,59,.2);
+}
+
+input{
+    text-transform:uppercase;
+}
+
+button{
+    width:100%;
+    border:0;
+    border-radius:12px;
+    padding:15px;
+    margin-top:12px;
+    font-size:16px;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.btn-attack{
+    background:linear-gradient(#8bc95d,#3f852f);
+    color:white;
+    border:3px solid #a5df77;
+    box-shadow:
+        0 4px 0 #285521,
+        inset 0 1px 0 #d5f3b5;
+    text-shadow:1px 2px #27511e;
+}
+
+.btn-attack:active{
+    transform:translateY(3px);
+    box-shadow:0 1px 0 #285521;
+}
+
+.btn-reset{
+    background:#493527;
+    color:#d9c39a;
+    border:2px solid #745331;
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    display:none;
+    margin-top:12px;
+    padding:14px;
+    border-radius:12px;
+    text-align:center;
+    font-weight:bold;
+    line-height:1.5;
+}
+
+.message.success{
+    display:block;
+    background:#21391d;
+    border:2px solid #5f9c4c;
+    color:#a8e78d;
+}
+
+.message.error{
+    display:block;
+    background:#3c211d;
+    border:2px solid #9e493c;
+    color:#ffb4a8;
+}
+
+.message.warning{
+    display:block;
+    background:#403319;
+    border:2px solid #9a7a32;
+    color:#ffe093;
+}
+
+
+/* =========================
+   RANKING
+========================= */
+
+.ranking-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#211811;
+    border:2px solid #594128;
+    border-radius:12px;
+    padding:11px;
+    margin-bottom:8px;
+}
+
+.rank-medal{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:linear-gradient(#f3c950,#a56c17);
+    border:2px solid #ffe59a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#3b250c;
+    font-weight:900;
+}
+
+.rank-info{
+    flex:1;
+}
+
+.rank-team{
+    font-weight:900;
+}
+
+.rank-word{
+    font-size:11px;
+    color:#b9a583;
+    margin-top:3px;
+}
+
+.rank-score{
+    font-size:19px;
+    font-weight:900;
+    color:#ffd45d;
+}
+
+
+/* =========================
+   COMPLETE
+========================= */
+
+.complete{
+    display:none;
+    text-align:center;
+    padding:23px 15px;
+    border-radius:18px;
+    background:
+        radial-gradient(circle,#465b2e,#26341d);
+    border:3px solid #79a95c;
+    box-shadow:
+        0 5px 0 #10170d,
+        inset 0 0 20px rgba(0,0,0,.25);
+    margin-bottom:14px;
+}
+
+.complete h2{
+    color:#ffdc68;
+    font-size:27px;
+    margin:0 0 8px;
+}
+
+.complete p{
+    color:#d5dfbd;
+    font-size:13px;
+    line-height:1.5;
+}
+
+
+/* =========================
+   DISABLED
+========================= */
+
+button:disabled,
+select:disabled,
+input:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   SMALL SCREEN
+========================= */
+
+@media(max-width:390px){
+
+    .hero h1{
+        font-size:24px;
+    }
+
+    .team-score{
+        font-size:23px;
+    }
+
+    .panel{
+        padding:13px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- TOP BAR -->
+
+    <div class="topbar">
+
+        <div class="logo">
+            ⚗️ CHEM CLASH
+            <span>MYSTERY ELEMENT MISSION</span>
+        </div>
+
+        <div class="shield">
+            🛡️
+        </div>
+
+    </div>
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <h1>🏰 MYSTERY MISSION</h1>
+
+        <p>
+            Pecahkan identitas unsur dan temukan kata rahasia.
+        </p>
+
+    </div>
+
+
+    <!-- PROGRESS -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            🎯 PROGRESS MISI
+        </div>
+
+        <div class="progress-wrap">
+
+            <div
+                class="progress-bar"
+                id="progressBar">
+            </div>
+
+        </div>
+
+        <div
+            class="progress-text"
+            id="progressText">
+            0 / 4 kata berhasil ditemukan
+        </div>
+
+    </div>
+
+
+    <!-- RULES -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            📜 ATURAN MISI
+        </div>
+
+        <div class="rules">
+
+            <div class="rule">
+                🧪 Pecahkan kartu misteri untuk mengetahui
+                <b>unsurnya</b>.
+            </div>
+
+            <div class="rule">
+                🔤 Ambil huruf pertama nama unsur dalam
+                <b>bahasa Indonesia</b>.
+            </div>
+
+            <div class="rule">
+                🧩 Susun huruf-huruf tersebut hingga menemukan
+                kata rahasia.
+            </div>
+
+            <div class="rule">
+                💰 Setiap kelompok memulai dengan
+                <b>100 poin</b>.
+            </div>
+
+            <div class="rule">
+                ⚔️ Jawaban salah = <b>−10 poin</b>.
+            </div>
+
+            <div class="rule">
+                🔒 Kata yang sudah berhasil diklaim hanya dapat
+                digunakan oleh satu kelompok.
+            </div>
+
+            <div class="rule">
+                🏆 Setiap kelompok hanya boleh mengklaim
+                <b>satu kata</b>.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- TEAM STATUS -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            👥 VILLAGE STATUS
+        </div>
+
+        <div
+            class="team-grid"
+            id="scoreBoard">
+        </div>
+
+    </div>
+
+
+    <!-- COMPLETE -->
+
+    <div
+        class="complete"
+        id="completePanel">
+
+        <h2>
+            🏆 MISSION COMPLETE!
+        </h2>
+
+        <p>
+            Semua kelompok telah berhasil menemukan
+            kata rahasianya.
+        </p>
+
+        <p>
+            Lihat ranking akhir di bawah.
+        </p>
+
+    </div>
+
+
+    <!-- CLAIM -->
+
+    <div class="panel" id="gamePanel">
+
+        <div class="panel-title">
+            ⚔️ CLAIM YOUR DISCOVERY
+        </div>
+
+
+        <label for="team">
+            Pilih kelompok
+        </label>
+
+        <select id="team">
+
+            <option value="">
+                -- Pilih Kelompok --
+            </option>
+
+            <option value="Kelompok 1">
+                Kelompok 1
+            </option>
+
+            <option value="Kelompok 2">
+                Kelompok 2
+            </option>
+
+            <option value="Kelompok 3">
+                Kelompok 3
+            </option>
+
+            <option value="Kelompok 4">
+                Kelompok 4
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label for="answer">
+            Masukkan kata yang kalian temukan
+        </label>
+
+        <input
+            type="text"
+            id="answer"
+            placeholder="Ketik kata..."
+            autocomplete="off"
+            autocapitalize="characters"
+        >
+
+
+        <button
+            class="btn-attack"
+            onclick="checkAnswer()">
+
+            ⚔️ KLAIM KATA
+
+        </button>
+
+
+        <div
+            id="message"
+            class="message">
+        </div>
+
+    </div>
+
+
+    <!-- RANKING -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+            🏆 HALL OF FAME
+        </div>
+
+        <div id="ranking">
+
+            <div
+                style="
+                text-align:center;
+                color:#94836a;
+                font-size:13px;
+                padding:10px;">
+                Belum ada kelompok yang berhasil.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESET -->
+
+    <div class="panel">
+
+        <button
+            class="btn-reset"
+            onclick="resetGame()">
+
+            🔄 RESET MISSION
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* =====================================================
+   TARGET WORDS
+   ================================================
+
+   PENTING:
+   Kata-kata ini TIDAK PERNAH ditampilkan kepada siswa.
+
+   Hanya digunakan oleh sistem untuk mengecek jawaban.
+===================================================== */
+
+const targetWords = [
+
+    "BEKAL",
+    "BAHU",
+    "MALAS",
+    "KERTAS"
+
+];
+
+
+/* =====================================================
+   DATA KELOMPOK
+===================================================== */
+
+let teams = {
+
+    "Kelompok 1":{
+        score:100,
+        wrong:0,
+        found:false,
+        word:null
+    },
+
+    "Kelompok 2":{
+        score:100,
+        wrong:0,
+        found:false,
+        word:null
+    },
+
+    "Kelompok 3":{
+        score:100,
+        wrong:0,
+        found:false,
+        word:null
+    },
+
+    "Kelompok 4":{
+        score:100,
+        wrong:0,
+        found:false,
+        word:null
+    }
+
+};
+
+
+/* =====================================================
+   KATA YANG SUDAH DIKLAIM
+===================================================== */
+
+let claimedWords = {};
+
+
+/* =====================================================
+   RANKING
+===================================================== */
+
+let ranking = [];
+
+
+/* =====================================================
+   CEK JAWABAN
+===================================================== */
+
+function checkAnswer(){
+
+    const teamName =
+        document.getElementById("team").value;
+
+    const input =
+        document.getElementById("answer");
+
+    const message =
+        document.getElementById("message");
+
+
+    let answer =
+        input.value
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g,"");
+
+
+    /* -------------------------
+       BELUM PILIH KELOMPOK
+    ------------------------- */
+
+    if(!teamName){
+
+        showMessage(
+            "warning",
+            "⚠️ Pilih kelompok terlebih dahulu."
+        );
+
+        return;
+    }
+
+
+    /* -------------------------
+       BELUM MASUKKAN JAWABAN
+    ------------------------- */
+
+    if(!answer){
+
+        showMessage(
+            "warning",
+            "⚠️ Masukkan jawaban terlebih dahulu."
+        );
+
+        return;
+    }
+
+
+    /* -------------------------
+       KELOMPOK SUDAH BERHASIL
+    ------------------------- */
+
+    if(teams[teamName].found){
+
+        showMessage(
+            "warning",
+            "🏆 Kelompok ini sudah menyelesaikan misinya."
+        );
+
+        return;
+    }
+
+
+    /* =================================================
+       PENTING:
+
+       Cek dulu apakah JAWABAN PERSIS SAMA dengan
+       kata yang sudah diklaim.
+
+       Kalau iya → tampilkan "sudah diklaim".
+
+       Kalau hanya anagram → TIDAK masuk sini.
+       Akan dianggap sebagai jawaban salah.
+    ================================================= */
+
+    if(claimedWords[answer]){
+
+        showMessage(
+            "warning",
+            "🔒 Kata ini sudah diklaim oleh kelompok lain."
+        );
+
+        input.value = "";
+
+        return;
+    }
+
+
+    /* -------------------------
+       CEK APAKAH JAWABAN BENAR
+    ------------------------- */
+
+    if(targetWords.includes(answer)){
+
+        /* =====================
+           JAWABAN BENAR
+        ===================== */
+
+        teams[teamName].found = true;
+
+        teams[teamName].word = answer;
+
+
+        /* Simpan kata */
+
+        claimedWords[answer] = teamName;
+
+
+        /* Masukkan ranking */
+
+        ranking.push({
+
+            team:teamName,
+
+            word:answer,
+
+            score:teams[teamName].score,
+
+            wrong:teams[teamName].wrong,
+
+            order:ranking.length + 1
+
+        });
+
+
+        showMessage(
+            "success",
+            "🎉 <b>MISSION SUCCESS!</b><br><br>" +
+            "Kata berhasil diklaim.<br>" +
+            "Skor akhir: <b>" +
+            teams[teamName].score +
+            " poin</b>"
+        );
+
+
+        input.value = "";
+
+
+        updateAll();
+
+
+        /* Semua selesai? */
+
+        if(ranking.length === 4){
+
+            finishGame();
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* =================================================
+       JAWABAN SALAH
+
+       TERMASUK:
+       - kata acak
+       - typo
+       - anagram dari kata yang sudah diklaim
+       - kata yang hampir benar
+
+       Semua diperlakukan SAMA.
+    ================================================= */
+
+    teams[teamName].wrong++;
+
+    teams[teamName].score -= 10;
+
+
+    if(teams[teamName].score < 0){
+
+        teams[teamName].score = 0;
+
+    }
+
+
+    showMessage(
+        "error",
+        "❌ <b>JAWABAN SALAH!</b><br><br>" +
+        "−10 poin<br>" +
+        "Skor sekarang: <b>" +
+        teams[teamName].score +
+        "</b>"
+    );
+
+
+    input.value = "";
+
+
+    updateAll();
+
+}
+
+
+/* =====================================================
+   PESAN
+===================================================== */
+
+function showMessage(type,text){
+
+    const message =
+        document.getElementById("message");
+
+    message.className =
+        "message " + type;
+
+    message.innerHTML = text;
+
+}
+
+
+/* =====================================================
+   UPDATE SEMUA
+===================================================== */
+
+function updateAll(){
+
+    updateScoreBoard();
+
+    updateRanking();
+
+    updateProgress();
+
+}
+
+
+/* =====================================================
+   SCORE BOARD
+===================================================== */
+
+function updateScoreBoard(){
+
+    const board =
+        document.getElementById("scoreBoard");
+
+    board.innerHTML = "";
+
+
+    Object.keys(teams).forEach(function(teamName){
+
+        const team =
+            teams[teamName];
+
+
+        let status =
+            "Masih mencari";
+
+
+        if(team.found){
+
+            status =
+                "🏆 Misi selesai";
+
+        }
+
+
+        board.innerHTML += `
+
+            <div class="team-card ${team.found ? "done" : ""}">
+
+                <div class="score-icon">
+                    ${team.found ? "🏆" : "⚔️"}
+                </div>
+
+                <div class="team-name">
+                    ${teamName}
+                </div>
+
+                <div class="team-score">
+                    ${team.score}
+                </div>
+
+                <div class="team-status">
+                    ${status}
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   PROGRESS
+===================================================== */
+
+function updateProgress(){
+
+    const total = 4;
+
+    const found = ranking.length;
+
+    const percentage =
+        (found / total) * 100;
+
+
+    document.getElementById("progressBar")
+        .style.width = percentage + "%";
+
+
+    document.getElementById("progressText")
+        .innerHTML =
+        found +
+        " / " +
+        total +
+        " kata berhasil ditemukan";
+
+}
+
+
+/* =====================================================
+   RANKING
+
+   Ranking utama = SKOR.
+
+   Jika skor sama,
+   yang berhasil lebih dulu menang.
+===================================================== */
+
+function updateRanking(){
+
+    const box =
+        document.getElementById("ranking");
+
+
+    if(ranking.length === 0){
+
+        box.innerHTML = `
+
+            <div
+                style="
+                text-align:center;
+                color:#94836a;
+                font-size:13px;
+                padding:10px;">
+
+                Belum ada kelompok yang berhasil.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const sorted =
+        [...ranking].sort(function(a,b){
+
+            if(b.score !== a.score){
+
+                return b.score - a.score;
+
+            }
+
+            return a.order - b.order;
+
+        });
+
+
+    box.innerHTML = "";
+
+
+    sorted.forEach(function(item,index){
+
+        let medal = "🏅";
+
+
+        if(index === 0){
+            medal = "🥇";
+        }
+
+        else if(index === 1){
+            medal = "🥈";
+        }
+
+        else if(index === 2){
+            medal = "🥉";
+        }
+
+
+        box.innerHTML += `
+
+            <div class="ranking-item">
+
+                <div class="rank-medal">
+                    ${medal}
+                </div>
+
+                <div class="rank-info">
+
+                    <div class="rank-team">
+                        ${item.team}
+                    </div>
+
+                    <div class="rank-word">
+
+                        Kata ditemukan ·
+                        Salah ${item.wrong}×
+
+                    </div>
+
+                </div>
+
+                <div class="rank-score">
+                    ${item.score}
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =====================================================
+   SELESAI
+===================================================== */
+
+function finishGame(){
+
+    const panel =
+        document.getElementById("completePanel");
+
+
+    panel.style.display = "block";
+
+
+    document.getElementById("team")
+        .disabled = true;
+
+
+    document.getElementById("answer")
+        .disabled = true;
+
+
+    document.querySelector(".btn-attack")
+        .disabled = true;
+
+
+    setTimeout(function(){
+
+        panel.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    },300);
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetGame(){
+
+    const confirmReset =
+        confirm(
+            "Reset seluruh permainan?"
+        );
+
+
+    if(!confirmReset){
+
+        return;
+
+    }
+
+
+    teams = {
+
+        "Kelompok 1":{
+            score:100,
+            wrong:0,
+            found:false,
+            word:null
+        },
+
+        "Kelompok 2":{
+            score:100,
+            wrong:0,
+            found:false,
+            word:null
+        },
+
+        "Kelompok 3":{
+            score:100,
+            wrong:0,
+            found:false,
+            word:null
+        },
+
+        "Kelompok 4":{
+            score:100,
+            wrong:0,
+            found:false,
+            word:null
+        }
+
+    };
+
+
+    claimedWords = {};
+
+    ranking = [];
+
+
+    document.getElementById("team")
+        .disabled = false;
+
+    document.getElementById("answer")
+        .disabled = false;
+
+    document.querySelector(".btn-attack")
+        .disabled = false;
+
+
+    document.getElementById("team")
+        .value = "";
+
+
+    document.getElementById("answer")
+        .value = "";
+
+
+    document.getElementById("message")
+        .className = "message";
+
+
+    document.getElementById("message")
+        .innerHTML = "";
+
+
+    document.getElementById("completePanel")
+        .style.display = "none";
+
+
+    updateAll();
+
+}
+
+
+/* =====================================================
+   ENTER UNTUK SUBMIT
+===================================================== */
+
+document.getElementById("answer")
+.addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+
+        checkAnswer();
+
+    }
+
+});
+
+
+/* =====================================================
+   START
+===================================================== */
+
+updateAll();
+
+</script>
+
+</body>
+</html>
